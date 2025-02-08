@@ -1,7 +1,11 @@
 let player_x_plays = [];
 let player_y_plays = [];
+let current_button_clicked = 0;
 // const str = "591";
 let str = "";
+let img_strX = "";
+let img_strO = "";
+let current_button_clicked_str = "";
 // player "X" is 0, player "O" is 1
 // player X plays first
 let players_turn = 0;
@@ -11,27 +15,35 @@ console.log(player_x_plays);
 console.log(player_y_plays);
 
 
-/***********************************************************************/
-/***********************************************************************/
+// initially there are 2 pictures inside each div
+// they have display == none. this function is triggered then
+// the display = block and then the image appears
+function add_move() {
+  current_button_clicked_str  = String(current_button_clicked);
+  img_strX = 'imageX' + current_button_clicked_str;
+  img_strO = 'imageO' + current_button_clicked_str;
+  console.log(img_strX);
+  console.log(img_strO);
+  console.log(current_button_clicked_str);
+  if (players_turn == 0) {
+    document.getElementById(img_strX).style.display = "block";
+    player_x_plays.push(current_button_clicked_str);
+    console.log(player_x_plays);
+  } else {
+    document.getElementById(img_strO).style.display = "block";
+    player_y_plays.push(current_button_clicked_str);
+    console.log(player_y_plays); 
+  }
+}
+
 /***********************************************************************/
 // CLICK BUTTON ACTIONS
 function clicked_button1() {
-    console.log("ok_clicked");
+    console.log("ok_clicked button1");
+    current_button_clicked = 1;
     // document.getElementById('button1').style.display = "none";
     console.log("adding position 1");
-
-    // initially there are 2 pictures inside each div
-    // they have display == none. this function is triggered then
-    // the display = block and then the image appears
-    if (players_turn == 0) {
-      document.getElementById('imageX1').style.display = "block";
-      player_x_plays.push("1");
-      console.log(player_x_plays);
-    } else {
-      document.getElementById('imageO1').style.display = "block";
-      player_y_plays.push("1");
-      console.log(player_y_plays); 
-    }
+    add_move();
     // Remove the event listener after clicking
     sbutton.removeEventListener("click", clicked_button1);
     console.log("Event listener removed");
@@ -43,17 +55,10 @@ function clicked_button1() {
   }
 
   function clicked_button2() {
-    console.log("ok_clicked");
+    console.log("ok_clicked button2");
+    current_button_clicked = 2;
     console.log("adding position 2");
-    if (players_turn == 0) {
-      document.getElementById('imageX2').style.display = "block";
-      player_x_plays.push("2");
-      console.log(player_x_plays);
-    } else {
-      document.getElementById('imageO2').style.display = "block";
-      player_y_plays.push("2");
-      console.log(player_y_plays);
-    }
+    add_move();
     // Remove the event listener after clicking
     sbutton2.removeEventListener("click", clicked_button2);
     console.log("Event listener removed");
@@ -64,17 +69,10 @@ function clicked_button1() {
   }
 
   function clicked_button3() {
-    console.log("ok_clicked");
+    console.log("ok_clicked button3");
+    current_button_clicked = 3;
     console.log("adding position 3");
-    if (players_turn == 0) {
-      document.getElementById('imageX3').style.display = "block";
-      player_x_plays.push("3");
-      console.log(player_x_plays);
-    } else {
-      document.getElementById('imageO3').style.display = "block";
-      player_y_plays.push("3");
-      console.log(player_y_plays);
-    }
+    add_move();
     // Remove the event listener after clicking
     sbutton3.removeEventListener("click", clicked_button3);
     console.log("Event listener removed");
@@ -85,17 +83,10 @@ function clicked_button1() {
   }
 
   function clicked_button4() {
-    console.log("ok_clicked");
+    console.log("ok_clicked button4");
+    current_button_clicked = 4;
     console.log("adding position 4");
-    if (players_turn == 0) {
-      document.getElementById('imageX4').style.display = "block";
-      player_x_plays.push("4");
-      console.log(player_x_plays);
-    } else {
-      document.getElementById('imageO4').style.display = "block";
-      player_y_plays.push("4");
-      console.log(player_y_plays);
-    }
+    add_move();
     // Remove the event listener after clicking
     sbutton4.removeEventListener("click", clicked_button4);
     console.log("Event listener removed");
@@ -106,17 +97,10 @@ function clicked_button1() {
   }
 
   function clicked_button5() {
-    console.log("ok_clicked");
+    console.log("ok_clicked button5");
+    current_button_clicked = 5;
     console.log("adding position 5");
-    if (players_turn == 0) {
-      document.getElementById('imageX5').style.display = "block";
-      player_x_plays.push("5");
-      console.log(player_x_plays);
-    } else {
-      document.getElementById('imageO5').style.display = "block";
-      player_y_plays.push("5");
-      console.log(player_y_plays);
-    }
+    add_move();
     // Remove the event listener after clicking
     sbutton5.removeEventListener("click", clicked_button5);
     console.log("Event listener removed");
@@ -127,17 +111,9 @@ function clicked_button1() {
   }
 
   function clicked_button6() {
-    console.log("ok_clicked");
-    console.log("adding position 6");
-    if (players_turn == 0) {
-      document.getElementById('imageX6').style.display = "block";
-      player_x_plays.push("6");
-      console.log(player_x_plays);
-    } else {
-      document.getElementById('imageO6').style.display = "block";
-      player_y_plays.push("6");
-      console.log(player_y_plays);
-    }
+    console.log("ok_clicked button6");
+    current_button_clicked = 6;
+    add_move();
     // Remove the event listener after clicking
     sbutton6.removeEventListener("click", clicked_button6);
     console.log("Event listener removed");
@@ -148,17 +124,10 @@ function clicked_button1() {
   }
 
   function clicked_button7() {
-    console.log("ok_clicked");
+    console.log("ok_clicked button7");
+    current_button_clicked = 7;
     console.log("adding position 7");
-    if (players_turn == 0) {
-      document.getElementById('imageX7').style.display = "block";
-      player_x_plays.push("7");
-      console.log(player_x_plays);
-    } else {
-      document.getElementById('imageO7').style.display = "block";
-      player_y_plays.push("7");
-      console.log(player_y_plays);
-    }
+    add_move();
     // Remove the event listener after clicking
     sbutton7.removeEventListener("click", clicked_button7);
     console.log("Event listener removed");
@@ -169,17 +138,10 @@ function clicked_button1() {
   }
 
   function clicked_button8() {
-    console.log("ok_clicked");
+    console.log("ok_clicked button8");
+    current_button_clicked = 8;
     console.log("adding position 8");
-    if (players_turn == 0) {
-      document.getElementById('imageX8').style.display = "block";
-      player_x_plays.push("8");
-      console.log(player_x_plays);
-    } else {
-      document.getElementById('imageO8').style.display = "block";
-      player_y_plays.push("8");
-      console.log(player_y_plays);
-    }
+    add_move();
     // Remove the event listener after clicking
     sbutton8.removeEventListener("click", clicked_button8);
     console.log("Event listener removed");
@@ -190,17 +152,10 @@ function clicked_button1() {
   }
 
   function clicked_button9() {
-    console.log("ok_clicked");
+    console.log("ok_clicked button9");
+    current_button_clicked = 9;
     console.log("adding position 9");
-    if (players_turn == 0) {
-      document.getElementById('imageX9').style.display = "block";
-      player_x_plays.push("9");
-      console.log(player_x_plays);
-    } else {
-      document.getElementById('imageO9').style.display = "block";
-      player_y_plays.push("9");
-      console.log(player_y_plays);
-    }
+    add_move();
     // Remove the event listener after clicking
     sbutton9.removeEventListener("click", clicked_button9);
     console.log("Event listener removed");
@@ -212,10 +167,6 @@ function clicked_button1() {
 
 // CLICK BUTTON ACTIONS
 /***********************************************************************/
-/***********************************************************************/
-/***********************************************************************/
-
-
   // switches the player over
   function switch_player(){
     if (players_turn == 0){
