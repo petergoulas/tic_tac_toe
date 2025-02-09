@@ -1,5 +1,7 @@
 let player_x_plays = [];
 let player_y_plays = [];
+let player_x_plays_str ="";
+let player_y_plays_str ="";
 let current_button_clicked = 0;
 // const str = "591";
 let str = "";
@@ -28,11 +30,19 @@ function add_move() {
   if (players_turn == 0) {
     document.getElementById(img_strX).style.display = "block";
     player_x_plays.push(current_button_clicked_str);
+    player_x_plays_str += current_button_clicked_str;
     console.log(player_x_plays);
+    console.log(player_x_plays_str);
+    if (player_x_plays.length>=3) {
+      console.log("player has now 3 plays or more");
+      check_win();
+    }
   } else {
     document.getElementById(img_strO).style.display = "block";
     player_y_plays.push(current_button_clicked_str);
+    player_y_plays_str += current_button_clicked_str;
     console.log(player_y_plays); 
+    console.log(player_y_plays_str);
   }
 }
 
@@ -196,16 +206,27 @@ function clicked_button1() {
 //console.log(found_result);
 
 // checks winning conditions
-function check_win(str,winning_combos){
+function check_win(){
     found=false;
     for (let i = 0; i < winning_combos.length; i++) {
         //console.log("Checking list: ", winning_combos[i]);
         for (let j = 0; j < winning_combos[i].length; j++) {
             //console.log("Checking item: ", winning_combos[i][j]);
-            if (winning_combos[i][j] === str) {
-                found = true;
+            // if (winning_combos[i][j] === str) {
+            //     found = true;
                 //console.log("found it");
-                break;
+            //     break;
+            // }
+            if (players_turn == 0){
+              if(player_x_plays_str.includes(winning_combos[i][j])){
+                console.log("YESSSSSSSSSSSSSSSSSSSSS");
+              }
+            }
+            // bugged atm
+            if (players_turn == 1) {
+              if(player_y_plays_str.includes(winning_combos[i][j])){
+                console.log("YESSSSSSSSSSSSSSSSSSSSS SIRRRRRR");
+              }
             }
         }
     }
