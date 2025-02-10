@@ -43,6 +43,10 @@ function add_move() {
     player_y_plays_str += current_button_clicked_str;
     console.log(player_y_plays); 
     console.log(player_y_plays_str);
+    if (player_y_plays.length>=3) {
+      console.log("player has now 3 plays or more");
+      check_win();
+    }
   }
 }
 
@@ -217,15 +221,20 @@ function check_win(){
                 //console.log("found it");
             //     break;
             // }
+          // console.log("inside the check win function:");
+          // console.log("stringx is: ", player_x_plays_str);
+          // console.log("stringy is: ", player_y_plays_str);
+          // console.log("checking str:", winning_combos[i][j]);
             if (players_turn == 0){
               if(player_x_plays_str.includes(winning_combos[i][j])){
-                console.log("YESSSSSSSSSSSSSSSSSSSSS");
+                console.log("player X wins");
+                return 0;
               }
             }
-            // bugged atm
             if (players_turn == 1) {
               if(player_y_plays_str.includes(winning_combos[i][j])){
-                console.log("YESSSSSSSSSSSSSSSSSSSSS SIRRRRRR");
+                console.log("player y wins");
+                return 0;
               }
             }
         }
