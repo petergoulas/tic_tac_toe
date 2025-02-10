@@ -228,12 +228,16 @@ function check_win(){
             if (players_turn == 0){
               if(player_x_plays_str.includes(winning_combos[i][j])){
                 console.log("player X wins");
+                const para = document.getElementById('winning_conditions_met');
+                para.textContent+= 'ATTENTION: PLAYER "X" WINS';
                 return 0;
               }
             }
             if (players_turn == 1) {
               if(player_y_plays_str.includes(winning_combos[i][j])){
                 console.log("player y wins");
+                const para = document.getElementById('winning_conditions_met');
+                para.textContent+= 'ATTENTION: PLAYER "O" WINS';
                 return 0;
               }
             }
