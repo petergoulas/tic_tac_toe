@@ -50,6 +50,18 @@ function add_move() {
   }
 }
 
+function remove_event_listeners() {
+  sbutton.removeEventListener("click", clicked_button1);
+  sbutton2.removeEventListener("click", clicked_button2);
+  sbutton3.removeEventListener("click", clicked_button3);
+  sbutton4.removeEventListener("click", clicked_button4);
+  sbutton5.removeEventListener("click", clicked_button5);
+  sbutton6.removeEventListener("click", clicked_button6);
+  sbutton7.removeEventListener("click", clicked_button7);
+  sbutton8.removeEventListener("click", clicked_button8);
+  sbutton9.removeEventListener("click", clicked_button9);
+}
+
 /***********************************************************************/
 // CLICK BUTTON ACTIONS
 function clicked_button1() {
@@ -230,6 +242,7 @@ function check_win(){
                 console.log("player X wins");
                 const para = document.getElementById('winning_conditions_met');
                 para.textContent+= 'ATTENTION: PLAYER "X" WINS';
+                remove_event_listeners();
                 return 0;
               }
             }
@@ -238,6 +251,7 @@ function check_win(){
                 console.log("player y wins");
                 const para = document.getElementById('winning_conditions_met');
                 para.textContent+= 'ATTENTION: PLAYER "O" WINS';
+                remove_event_listeners();
                 return 0;
               }
             }
