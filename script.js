@@ -11,56 +11,114 @@ let current_button_clicked_str = "";
 // player "X" is 0, player "O" is 1
 // player X plays first
 let players_turn = 0;
-console.log("line 8 start");
 console.log(players_turn);
 console.log(player_x_plays);
 console.log(player_y_plays);
 
 
+const playerObject = function() {
+  return { 
 // initially there are 2 pictures inside each div
 // they have display == none. this function is triggered then
 // the display = block and then the image appears
-function add_move() {
-  current_button_clicked_str  = String(current_button_clicked);
-  img_strX = 'imageX' + current_button_clicked_str;
-  img_strO = 'imageO' + current_button_clicked_str;
-  console.log(img_strX);
-  console.log(img_strO);
-  console.log(current_button_clicked_str);
-  if (players_turn == 0) {
-    document.getElementById(img_strX).style.display = "block";
-    player_x_plays.push(current_button_clicked_str);
-    player_x_plays_str += current_button_clicked_str;
-    console.log(player_x_plays);
-    console.log(player_x_plays_str);
-    if (player_x_plays.length>=3) {
-      console.log("player has now 3 plays or more");
-      check_win();
-    }
-  } else {
-    document.getElementById(img_strO).style.display = "block";
-    player_y_plays.push(current_button_clicked_str);
-    player_y_plays_str += current_button_clicked_str;
-    console.log(player_y_plays); 
-    console.log(player_y_plays_str);
-    if (player_y_plays.length>=3) {
-      console.log("player has now 3 plays or more");
-      check_win();
-    }
-  }
-}
+    add_move() {
+      current_button_clicked_str  = String(current_button_clicked);
+      img_strX = 'imageX' + current_button_clicked_str;
+      img_strO = 'imageO' + current_button_clicked_str;
+      console.log(img_strX);
+      console.log(img_strO);
+      console.log(current_button_clicked_str);
+      if (players_turn == 0) {
+        document.getElementById(img_strX).style.display = "block";
+        player_x_plays.push(current_button_clicked_str);
+        player_x_plays_str += current_button_clicked_str;
+        console.log(player_x_plays);
+        console.log(player_x_plays_str);
+        if (player_x_plays.length>=3) {
+          console.log("player X has now 3 plays or more");
+          console.log("Calling gameboard.check_win() for Player X...");
+          console.log("Gameboard Object: ", gameboard);
+          console.log("Checking if function exists: ", typeof gameboard.check_win);
+          gameboard.check_win();
+        }
+      } else {
+        document.getElementById(img_strO).style.display = "block";
+        player_y_plays.push(current_button_clicked_str);
+        player_y_plays_str += current_button_clicked_str;
+        console.log(player_y_plays); 
+        console.log(player_y_plays_str);
+        if (player_y_plays.length>=3) {
+          console.log("player O has now 3 plays or more");
+          gameboard.check_win();
+        }
+      }
+    },
 
-function remove_event_listeners() {
-  sbutton.removeEventListener("click", clicked_button1);
-  sbutton2.removeEventListener("click", clicked_button2);
-  sbutton3.removeEventListener("click", clicked_button3);
-  sbutton4.removeEventListener("click", clicked_button4);
-  sbutton5.removeEventListener("click", clicked_button5);
-  sbutton6.removeEventListener("click", clicked_button6);
-  sbutton7.removeEventListener("click", clicked_button7);
-  sbutton8.removeEventListener("click", clicked_button8);
-  sbutton9.removeEventListener("click", clicked_button9);
-}
+    // switches the player over
+    switch_player() {
+      if (players_turn == 0){
+        players_turn=1;
+      } else {
+        players_turn=0;
+      }
+    }
+  };
+};
+
+const gameboardObject = function() {
+  return { 
+    winning_combos: [ 
+      ["159", "195", "519", "591", "915", "951"],
+      ["357", "375", "537", "573", "735", "753"],
+      ["258", "285", "528", "582", "825", "852"],
+      ["456", "465", "546", "564", "645", "654"],
+      ["147", "174", "417", "471", "714", "741"],
+      ["123", "132", "213", "231", "312", "321"],
+      ["369", "396", "639", "693", "936", "963"],
+      ["789", "798", "879", "897", "978", "987"]
+    ], 
+
+    // players_turn: 0,
+    // player_x_plays_str: "",
+    // player_y_plays_str: "",
+
+    check_win() {
+      let found = false;
+      console.log("L86");
+      console.log(players_turn);
+      console.log(player_x_plays_str);
+      console.log(player_y_plays_str);
+      for (let i = 0; i < this.winning_combos.length; i++) {
+        for (let j = 0; j < this.winning_combos[i].length; j++) {
+          if (players_turn == 0) {
+            console.log("HERE_L93");
+            console.log(player_x_plays_str,this.winning_combos[i][j]);
+            if (player_x_plays_str.includes(this.winning_combos[i][j])) {
+              console.log("Player X wins!");
+              const para = document.getElementById('winning_conditions_met');
+              para.textContent+= 'ATTENTION: PLAYER "X" WINS';
+              remove_event_listeners();
+              return true;
+            }
+          } else {
+            if (player_y_plays_str.includes(this.winning_combos[i][j])) {
+              console.log(" Player Y wins!");
+              const para = document.getElementById('winning_conditions_met');
+              para.textContent+= 'ATTENTION: PLAYER "O" WINS';
+              remove_event_listeners();
+              return true;
+            }
+          }
+        }
+      }
+      return found;
+    }
+  }; 
+};
+
+const gameboard = gameboardObject();
+const player = playerObject();
+
 
 /***********************************************************************/
 // CLICK BUTTON ACTIONS
@@ -69,12 +127,12 @@ function clicked_button1() {
     current_button_clicked = 1;
     // document.getElementById('button1').style.display = "none";
     console.log("adding position 1");
-    add_move();
+    player.add_move();
     // Remove the event listener after clicking
     sbutton.removeEventListener("click", clicked_button1);
     console.log("Event listener removed");
     // switch player
-    switch_player();
+    player.switch_player();
     console.log("players turn switched")
     console.log("player is now:");
     console.log(players_turn);
@@ -84,12 +142,12 @@ function clicked_button1() {
     console.log("ok_clicked button2");
     current_button_clicked = 2;
     console.log("adding position 2");
-    add_move();
+    player.add_move();
     // Remove the event listener after clicking
     sbutton2.removeEventListener("click", clicked_button2);
     console.log("Event listener removed");
     // switch player
-    switch_player();
+    player.switch_player();
     console.log("player is now:");
     console.log(players_turn);
   }
@@ -98,12 +156,12 @@ function clicked_button1() {
     console.log("ok_clicked button3");
     current_button_clicked = 3;
     console.log("adding position 3");
-    add_move();
+    player.add_move();
     // Remove the event listener after clicking
     sbutton3.removeEventListener("click", clicked_button3);
     console.log("Event listener removed");
     // switch player
-    switch_player();
+    player.switch_player();
     console.log("player is now:");
     console.log(players_turn);
   }
@@ -112,12 +170,12 @@ function clicked_button1() {
     console.log("ok_clicked button4");
     current_button_clicked = 4;
     console.log("adding position 4");
-    add_move();
+    player.add_move();
     // Remove the event listener after clicking
     sbutton4.removeEventListener("click", clicked_button4);
     console.log("Event listener removed");
     // switch player
-    switch_player();
+    player.switch_player();
     console.log("player is now:");
     console.log(players_turn);
   }
@@ -126,12 +184,12 @@ function clicked_button1() {
     console.log("ok_clicked button5");
     current_button_clicked = 5;
     console.log("adding position 5");
-    add_move();
+    player.add_move();
     // Remove the event listener after clicking
     sbutton5.removeEventListener("click", clicked_button5);
     console.log("Event listener removed");
     // switch player
-    switch_player();
+    player.switch_player();
     console.log("player is now:");
     console.log(players_turn);
   }
@@ -139,12 +197,12 @@ function clicked_button1() {
   function clicked_button6() {
     console.log("ok_clicked button6");
     current_button_clicked = 6;
-    add_move();
+    player.add_move();
     // Remove the event listener after clicking
     sbutton6.removeEventListener("click", clicked_button6);
     console.log("Event listener removed");
     // switch player
-    switch_player();
+    player.switch_player();
     console.log("player is now:");
     console.log(players_turn);
   }
@@ -158,7 +216,7 @@ function clicked_button1() {
     sbutton7.removeEventListener("click", clicked_button7);
     console.log("Event listener removed");
     // switch player
-    switch_player();
+    player.switch_player();
     console.log("player is now:");
     console.log(players_turn);
   }
@@ -167,12 +225,12 @@ function clicked_button1() {
     console.log("ok_clicked button8");
     current_button_clicked = 8;
     console.log("adding position 8");
-    add_move();
+    player.add_move();
     // Remove the event listener after clicking
     sbutton8.removeEventListener("click", clicked_button8);
     console.log("Event listener removed");
     // switch player
-    switch_player();
+    player.switch_player();
     console.log("player is now:");
     console.log(players_turn);
   }
@@ -181,12 +239,12 @@ function clicked_button1() {
     console.log("ok_clicked button9");
     current_button_clicked = 9;
     console.log("adding position 9");
-    add_move();
+    player.add_move();
     // Remove the event listener after clicking
     sbutton9.removeEventListener("click", clicked_button9);
     console.log("Event listener removed");
     // switch player
-    switch_player();
+    player.switch_player();
     console.log("player is now:");
     console.log(players_turn);
   }
@@ -194,74 +252,14 @@ function clicked_button1() {
 // CLICK BUTTON ACTIONS
 /***********************************************************************/
   // switches the player over
-  function switch_player(){
-    if (players_turn == 0){
-      players_turn=1;
-    } else {
-      players_turn=0;
-    }
-  }
-  
-  // winning_combos = ['159','357','258','456','147','123','369', '789']
-  // player_x_plays = []
-  // player_y_plays = []
+  // function switch_player(){
+  //   if (players_turn == 0){
+  //     players_turn=1;
+  //   } else {
+  //     players_turn=0;
+  //   }
+  // }
 
-  const winning_combos = [
-    ["159", "195", "519", "591", "915", "951"],
-    ["357", "375", "537", "573", "735", "753"],
-    ["258", "285", "528", "582", "825", "852"],
-    ["456", "465", "546", "564", "645", "654"],
-    ["147", "174", "417", "471", "714", "741"],
-    ["123", "132", "213", "231", "312", "321"],
-    ["369", "396", "639", "693", "936", "963"],
-    ["789", "798", "879", "897", "978", "987"]
-];
-
-// USE THIS FOR CHECKING THE WIN
-// found_result = check_win(str,winning_combos);
-//console.log(found_result);
-
-// checks winning conditions
-function check_win(){
-    found=false;
-    for (let i = 0; i < winning_combos.length; i++) {
-        //console.log("Checking list: ", winning_combos[i]);
-        for (let j = 0; j < winning_combos[i].length; j++) {
-            //console.log("Checking item: ", winning_combos[i][j]);
-            // if (winning_combos[i][j] === str) {
-            //     found = true;
-                //console.log("found it");
-            //     break;
-            // }
-          // console.log("inside the check win function:");
-          // console.log("stringx is: ", player_x_plays_str);
-          // console.log("stringy is: ", player_y_plays_str);
-          // console.log("checking str:", winning_combos[i][j]);
-            if (players_turn == 0){
-              if(player_x_plays_str.includes(winning_combos[i][j])){
-                console.log("player X wins");
-                const para = document.getElementById('winning_conditions_met');
-                para.textContent+= 'ATTENTION: PLAYER "X" WINS';
-                remove_event_listeners();
-                return 0;
-              }
-            }
-            if (players_turn == 1) {
-              if(player_y_plays_str.includes(winning_combos[i][j])){
-                console.log("player y wins");
-                const para = document.getElementById('winning_conditions_met');
-                para.textContent+= 'ATTENTION: PLAYER "O" WINS';
-                remove_event_listeners();
-                return 0;
-              }
-            }
-        }
-    }
-    return found;
-}
-
-  
-  
   // add event listeners
   // This line selects the HTML element with the ID "button1" and assigns it to the variable sbutton.
   // sbutton is adding an event listener which will be triggered when clicked on it
@@ -285,6 +283,21 @@ function check_win(){
   let sbutton9 = document.getElementById("button9");
   sbutton9.addEventListener("click", clicked_button9, false);
   
+  function remove_event_listeners() {
+    console.log("Removing event listeners...");
+  
+    if (sbutton) sbutton.removeEventListener("click", clicked_button1);
+    if (sbutton2) sbutton2.removeEventListener("click", clicked_button2);
+    if (sbutton3) sbutton3.removeEventListener("click", clicked_button3);
+    if (sbutton4) sbutton4.removeEventListener("click", clicked_button4);
+    if (sbutton5) sbutton5.removeEventListener("click", clicked_button5);
+    if (sbutton6) sbutton6.removeEventListener("click", clicked_button6);
+    if (sbutton7) sbutton7.removeEventListener("click", clicked_button7);
+    if (sbutton8) sbutton8.removeEventListener("click", clicked_button8);
+    if (sbutton9) sbutton9.removeEventListener("click", clicked_button9);
+  
+    console.log("All event listeners removed.");
+  }
 // CODE IF YOU NEED
 
 // let num1 = 0;
